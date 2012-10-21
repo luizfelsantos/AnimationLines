@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+	<title>Ondas em linhas</title>
+
+<style type="text/css">
+body{
+	overflow:hidden;
+	margin:0;
+}
+.controls{
+	position:absolute;
+	z-index:100;
+	width:100%;
+	padding:0 5px;
+	background:rgba(255, 255, 255, .9);
+	font-family:'Segoe UI';
+}
+header{
+	display:inline-block;
+}
+h1, .controls h2{
+	display:inline-block;
+	font:normal 20px 'Segoe UI';
+	text-transform:uppercase;
+}
+h1{
+	margin:auto 20px;
+	font-size:30px;
+}
+label, input{
+	margin:0 10px;
+}
+</style>
+</head>
+<body>
+	<div class="controls">
+		<header>
+			<h1>Ondas em linhas</h1>
+		</header>
+		<h2>Controls</h2>
+		<label>Size: </label>
+		<input id="size" type="range" min="10" value="50"/>
+		<label>Speed: </label>
+		<input id="speed" type="range" value="5"/>
+		<label>Rotate: </label>
+		<input id="rotate" type="range" value="0"/>
+	</div>
+	<canvas id="tela"></canvas>
+	
+<script type="text/javascript">
+(function(a,b){
+	var canvas = a.querySelector('#tela'),
+	ctx = canvas.getContext('2d'),
+	size,
+	speed,
+	vendors = ['webkit','moz','o','ms'],
+	rotate;
+
+	var distanceBetween = 20, 
+	lines = Math.floor(b.innerWidth/distanceBetween),
+	angles = {
+		y1 : 90,
+		y2 : 270
+	};
+
+	b.addEventListener('resize',reset,false);
+
+		function reset(){
+			canvas.width = b.innerWidth;
+			canvas.height = b.innerHeight;
+		}
+		reset();
+	
+		function init(){
+			size = a.querySelector('#size').value*3;
+			speed = a.querySelector('#speed').value/1000;
+			rotate = a.querySelector('#rotate').value*1.8;
+
+			for(var i = 0; i < vendors.length; i++){
+				canvas.style[vendors[i]+'Transform'] = 'rotate(-'+ rotate +'deg)';
+			}
+
+			ctx.clearRect(0,0,b.innerWidth,b.innerHeight);
+
+			for(var i = 1; i < lines; i++){
+				linesDraw(i);
+			}
+
+			requestAnimFrame(init);
+		}
+
+		function linesDraw(i){
+			angles.y1+=speed;
+			angles.y2+=speed;
+
+			var positionTop = (i*18+(angles.y1*Math.PI))/180,
+			positionBottom = (i*18+(angles.y2*Math.PI))/180,
+			centerY = b.innerHeight/2,
+			lineTop = (Math.sin(positionTop))*size+centerY,
+			lineBottom = (Math.sin(positionBottom))*size+centerY;
+
+			ctx.lineWidth = 10;
+
+			ctx.beginPath();
+			ctx.moveTo(distanceBetween*i,lineTop);
+			ctx.lineTo(distanceBetween*i,lineBottom);
+			ctx.stroke();
+		}
+
+		b.requestAnimFrame = (function(){
+				  return  b.requestAnimationFrame       || 
+				          b.webkitRequestAnimationFrame || 
+				          b.mozRequestAnimationFrame    || 
+				          b.oRequestAnimationFrame      || 
+				          b.msRequestAnimationFrame     || 
+				          function(/* function*/  callback, /* DOMElement*/ element){
+				            b.setTimeout(callback, 1000/60);
+				          };
+		})();
+
+		init();
+
+})(document,this);
+</script>
+</body>
+</html>

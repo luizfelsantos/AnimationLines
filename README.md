@@ -1,0 +1,1 @@
+Este software é livre para qualquer uso.
