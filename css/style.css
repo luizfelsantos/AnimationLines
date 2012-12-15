@@ -1,0 +1,27 @@
+body{
+	overflow:hidden;
+	margin:0;
+}
+.controls{
+	position:absolute;
+	z-index:100;
+	width:100%;
+	padding:0 5px;
+	background:rgba(255, 255, 255, .9);
+	font-family:'Segoe UI';
+}
+header{
+	display:inline-block;
+}
+h1, .controls h2{
+	display:inline-block;
+	font:normal 20px 'Segoe UI';
+	text-transform:uppercase;
+}
+h1{
+	margin:auto 20px;
+	font-size:30px;
+}
+label, input{
+	margin:0 10px;
+}

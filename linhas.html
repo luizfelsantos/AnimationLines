@@ -60,7 +60,7 @@ label, input{
 
 	var distanceBetween = 20, 
 	lines = Math.floor(b.innerWidth/distanceBetween),
-	angles = {
+	deg = {
 		y1 : 90,
 		y2 : 270
 	};
@@ -92,11 +92,11 @@ label, input{
 		}
 
 		function linesDraw(i){
-			angles.y1+=speed;
-			angles.y2+=speed;
+			deg.y1+=speed;
+			deg.y2+=speed;
 
-			var positionTop = (i*18+(angles.y1*Math.PI))/180,
-			positionBottom = (i*18+(angles.y2*Math.PI))/180,
+			var positionTop = (i*18+(deg.y1*Math.PI))/180,
+			positionBottom = (i*18+(deg.y2*Math.PI))/180,
 			centerY = b.innerHeight/2,
 			lineTop = (Math.sin(positionTop))*size+centerY,
 			lineBottom = (Math.sin(positionBottom))*size+centerY;
