@@ -2,99 +2,33 @@
 <html lang="pt-br">
 <head>
 
+	<meta charset="utf-8">
+
 	<title>Ondas em linhas</title>
 	
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+
 </head>
 <body>
+	
+	<span class="open" title="Clique no botão para configurar a animação">Controles</span>
 	<div class="controls">
-		<header>
-			<h1>Ondas em linhas</h1>
-		</header>
-		<h2>Controls</h2>
+		<h2>Presonalize as linhas do seu jeito</h2>
+		
 		<label>Size: </label>
 		<input id="size" type="range" min="10" value="50"/>
+		
 		<label>Speed: </label>
 		<input id="speed" type="range" value="5"/>
+		
 		<label>Rotate: </label>
 		<input id="rotate" type="range" value="0"/>
+		
+		<span class="close">Fechar</span>
 	</div>
-	<canvas id="tela"></canvas>
+	<canvas id="draw"></canvas>
 	
-<script type="text/javascript">
-(function(a,b){
-	var canvas = a.querySelector('#tela'),
-	ctx = canvas.getContext('2d'),
-	size,
-	speed,
-	vendors = ['webkit','moz','o','ms'],
-	rotate;
-
-	var distanceBetween = 20, 
-	lines = Math.floor(b.innerWidth/distanceBetween),
-	deg = {
-		y1 : 90,
-		y2 : 270
-	};
-
-	b.addEventListener('resize',reset,false);
-
-		function reset(){
-			canvas.width = b.innerWidth;
-			canvas.height = b.innerHeight;
-		}
-		reset();
-	
-		function init(){
-			size = a.querySelector('#size').value*3;
-			speed = a.querySelector('#speed').value/1000;
-			rotate = a.querySelector('#rotate').value*1.8;
-
-			for(var i = 0; i < vendors.length; i++){
-				canvas.style[vendors[i]+'Transform'] = 'rotate(-'+ rotate +'deg)';
-			}
-
-			ctx.clearRect(0,0,b.innerWidth,b.innerHeight);
-
-			for(var i = 1; i < lines; i++){
-				linesDraw(i);
-			}
-
-			requestAnimFrame(init);
-		}
-
-		function linesDraw(i){
-			deg.y1+=speed;
-			deg.y2+=speed;
-
-			var positionTop = (i*18+(deg.y1*Math.PI))/180,
-			positionBottom = (i*18+(deg.y2*Math.PI))/180,
-			centerY = b.innerHeight/2,
-			lineTop = (Math.sin(positionTop))*size+centerY,
-			lineBottom = (Math.sin(positionBottom))*size+centerY;
-
-			ctx.lineWidth = 10;
-
-			ctx.beginPath();
-			ctx.moveTo(distanceBetween*i,lineTop);
-			ctx.lineTo(distanceBetween*i,lineBottom);
-			ctx.stroke();
-		}
-
-		b.requestAnimFrame = (function(){
-				  return  b.requestAnimationFrame       || 
-				          b.webkitRequestAnimationFrame || 
-				          b.mozRequestAnimationFrame    || 
-				          b.oRequestAnimationFrame      || 
-				          b.msRequestAnimationFrame     || 
-				          function(/* function*/  callback, /* DOMElement*/ element){
-				            b.setTimeout(callback, 1000/60);
-				          };
-		})();
-
-		init();
-
-})(document,this);
-</script>
+<script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
