@@ -48,7 +48,7 @@ input{
     background-color:rgba( 0,0,0,0.1 );
     background-image:-webkit-linear-gradient( rgba(0,0,0,0.2), rgba(0,0,0,0) );
 }
-input::-webkit-slider-thumb {
+input::-webkit-slider-thumb, input::-moz-slider-thumb {
     -webkit-appearance:none;
     width:8px;
     height:18px;

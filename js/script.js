@@ -7,7 +7,7 @@
 	setControl,
 	size,
 	speed,
-	vendors = ["webkit","moz","o","ms"],
+	vendors = ["Webkit","Moz","O","ms"],
 	rotate;
 
 	var distanceBetween = 20, 
