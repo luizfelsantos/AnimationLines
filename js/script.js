@@ -1,54 +1,33 @@
 (function(a,b){
+	
 	var canvas = a.querySelector("#draw"),
 	ctx = canvas.getContext("2d"),
-	open = a.querySelector(".open"),
-	close = a.querySelector(".close"),
-	controls = a.querySelector(".controls"),
-	setControl,
-	size,
-	speed,
 	vendors = ["Webkit","Moz","O","ms"],
-	rotate;
-
-	var distanceBetween = 20, 
+	distanceBetween = 20,
 	lines = Math.floor(b.innerWidth/distanceBetween),
-	deg = {
+	controls = {
+		size : 120,
+		speed : 0.010,
+		rotate : 0
+	};
+
+	var deg = {
 		y1 : 90,
 		y2 : 270
 	};
 
-	b.addEventListener("resize",reset,false);
-	a.addEventListener("click",toggle,false);
-
+	b.addEventListener("resize", reset, false);
 
 		function reset(){
 			canvas.width = b.innerWidth;
 			canvas.height = b.innerHeight;
 		}
 		reset();
-
-		function toggle(event){
-			if(event.target == open){
-				controls.style.display = "block";
-				setTimeout(function(){
-					controls.classList.add("active");
-				},0);
-			}
-			else if(event.target == close){
-				controls.classList.remove("active");
-				setTimeout(function(){
-					controls.style.display = "none";
-				},700);
-			}
-		}
 	
 		function init(){
-			size = a.querySelector("#size").value*3;
-			speed = a.querySelector("#speed").value/1000;
-			rotate = a.querySelector("#rotate").value*1.8;
 
 			for(var i = 0; i < vendors.length; i++){
-				canvas.style[vendors[i]+"Transform"] = "rotate(-"+ rotate +"deg)";
+				canvas.style[vendors[i]+"Transform"] = "rotate(-"+ controls.rotate +"deg)";
 			}
 
 			ctx.clearRect(0,0,b.innerWidth,b.innerHeight);
@@ -61,14 +40,14 @@
 		}
 
 		function linesDraw(i){
-			deg.y1 += speed;
-			deg.y2 += speed;
+			deg.y1 += controls.speed;
+			deg.y2 += controls.speed;
 
 			var positionTop = (i*18+(deg.y1*Math.PI))/180,
 			positionBottom = (i*18+(deg.y2*Math.PI))/180,
 			centerY = b.innerHeight/2,
-			lineTop = (Math.sin(positionTop))*size+centerY,
-			lineBottom = (Math.sin(positionBottom))*size+centerY;
+			lineTop = (Math.sin(positionTop))*controls.size+centerY,
+			lineBottom = (Math.sin(positionBottom))*controls.size+centerY;
 
 			ctx.lineWidth = 10;
 
@@ -77,6 +56,12 @@
 			ctx.lineTo(distanceBetween*i,lineBottom);
 			ctx.stroke();
 		}
+
+		var data = new dat.GUI();
+
+		data.add(controls,"size").min(10).max(300).step(1);
+		data.add(controls,"speed").min(0).max(0.1).step(0.001);
+		data.add(controls,"rotate").min(0).max(360).step(1);
 
 		b.requestAnimFrame = (function(){
 				  return  b.requestAnimationFrame       || 
